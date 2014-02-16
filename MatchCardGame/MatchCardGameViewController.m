@@ -20,6 +20,7 @@
 
 @implementation MatchCardGameViewController
 
+//set the flipCount and push changes to flipsLabel.
 -(void)setFlipCount:(int)flipCount
 {
     _flipCount = flipCount;
