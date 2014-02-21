@@ -40,20 +40,27 @@
 -(int) match:(NSArray *)otherCards
 {
     int score = 0;
-    if ([otherCards count] == 1) {
-        PlayingCard *otherCard = [otherCards firstObject];
-        if (otherCard.rank == self.rank) {
-            score = 4;
-        } else if ([otherCard.suit isEqualToString:self.suit]) {
-            score = 1;
+    if ([otherCards count] == 1)
+    {
+        for (PlayingCard *otherCard in otherCards) {
+            if (otherCard.rank == self.rank) {
+                score = 4;
+            } else if ([otherCard.suit isEqualToString:self.suit]) {
+                score = 1;
+            }
+        }
+    } else // if ([otherCards count] == 2)
+    {
+        for (PlayingCard *otherCard in otherCards) {
+            if (otherCard.rank == self.rank) {
+                score += 3; //Give extra points if multi-card match, give less if only 2 card match
+            } else if ([otherCard.suit isEqualToString:self.suit]) {
+                score += 1; //Give extra points if multi-card match, give less if only 2 card match
+            }
         }
     }
-    
-    
-    
-    
-    
-    
+    NSLog(@"Match score: %d",score);
+
     return score;
 }
 

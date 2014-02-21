@@ -167,10 +167,36 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39a-1g-HS2">
+                                <rect key="frame" x="223" y="352" width="77" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Re-deal">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reDealButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ogb-xy-Onk"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PBp-Kt-0Kc">
+                                <rect key="frame" x="25" y="352" width="175" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <segments>
+                                    <segment title="2-Card"/>
+                                    <segment title="3-Card"/>
+                                </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="howManyCardsControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="9VE-yq-0TH"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="howManyCardsSegmentedControl" destination="PBp-Kt-0Kc" id="SXC-xD-b1v"/>
                         <outlet property="scoreLabel" destination="dfi-Di-Zny" id="10i-cD-xfg"/>
                         <outletCollection property="cardButtons" destination="RPZ-GU-9Jh" id="1H6-vD-JOS"/>
                         <outletCollection property="cardButtons" destination="J8V-7N-fR0" id="lv5-vN-8eu"/>

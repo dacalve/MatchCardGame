@@ -19,6 +19,8 @@
 
 - (Card *)cardAtIndex:(NSUInteger)index;
 
+- (void)matchMode:(NSUInteger)cardsToMatch;
+
 @property (nonatomic, readonly) NSInteger score;
 
 @end
