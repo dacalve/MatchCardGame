@@ -11,7 +11,10 @@
 @interface CardMatchingGame()
 
 @property (nonatomic, readwrite) NSInteger score;
+@property (nonatomic, readwrite) NSInteger lastScore;
 @property (nonatomic, strong) NSMutableArray *cards; // array of Card
+
+@property (nonatomic, readwrite) NSArray *currentCards;
 @property NSUInteger howManyCardsToMatch;
 
 @end
@@ -62,40 +65,71 @@ static const int COST_TO_CHOOSE = 1;
 
 - (void)chooseCardAtIndex:(NSUInteger)index
 {
+    self.lastScore = 0;
     Card *card = [self cardAtIndex:index];
+    
     
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
         } else {
-            //match against other cards.
-            //int cardsChosen = 0;
-            NSMutableArray *selectedCards = [[NSMutableArray alloc]init];
-            for (Card *otherCard in self.cards) {
-                if ((otherCard.isChosen)&&(!otherCard.isMatched)) {
-                    [selectedCards addObject:otherCard];
-                }
-            }
             
-            if ([selectedCards count] == (self.howManyCardsToMatch - 1)) {
-                NSArray *chosenCards = [NSArray arrayWithArray:selectedCards];
-                int matchScore = [card match:chosenCards];
+            NSMutableArray *workingCards = [self setUpWorkingCardArrays:card];
+            
+            if ([workingCards count] == (self.howManyCardsToMatch - 1)) {
+                
+                int matchScore = 0;
+                NSArray *chosenCards = [NSArray arrayWithArray:workingCards];
+                matchScore = [card match:chosenCards];
+                
+                if (self.howManyCardsToMatch > 2) {
+                    //find the score of the 2nd and 3rd cards chosen and add to above score.
+                    Card* insideCard = workingCards[0];
+                    NSMutableArray *remainingChosenCards = [[NSMutableArray alloc] init];
+                    for (int i=1; i < [workingCards count]; i++) {
+                        [remainingChosenCards addObject:workingCards[i]];
+                    }
+                    matchScore += [insideCard match:remainingChosenCards];
+                                        
+                }
                 if (matchScore) {
-                    self.score += matchScore * MATCH_BONUS;
+                    self.lastScore = matchScore * MATCH_BONUS;
+                    self.score += self.lastScore;
                     card.matched = YES;
-                    [self matchSelectedCards:selectedCards];
+                    [self matchSelectedCards:workingCards];
                     
                 } else {
-                    self.score -= MISMATCH_PENALTY;
-                    [self toggleSelectedCards:selectedCards with:NO];
+                    self.lastScore = -MISMATCH_PENALTY;
+                    self.score += self.lastScore;
+                    [self toggleSelectedCards:workingCards with:NO];
                 }
-                self.score -= COST_TO_CHOOSE;
-            }
+                self.score += -COST_TO_CHOOSE;
+                
 
+            }
             card.chosen = YES;
-            
         }
     }
+
+    NSLog(@"last score:%d",self.lastScore);
+}
+
+-(NSMutableArray *)setUpWorkingCardArrays:(Card *)card
+{
+    //build an array of the cards we are going to match and make this list public for controller.
+    NSMutableArray *selectedCards = [[NSMutableArray alloc]init];
+    for (Card *otherCard in self.cards) {
+        if ((otherCard.isChosen)&&(!otherCard.isMatched)) {
+            [selectedCards addObject:otherCard];
+        }
+    }
+    
+    //populate currentCards with an array of all currently selected cards.
+    [selectedCards addObject:card];
+    self.currentCards = [selectedCards copy];
+    [selectedCards removeObjectAtIndex:[selectedCards count]-1];
+    
+    return selectedCards; //return array of cards without the current card for match calc processing.
 }
 
 -(void)matchSelectedCards:(NSMutableArray *)selectedCards
@@ -111,6 +145,7 @@ static const int COST_TO_CHOOSE = 1;
         otherCard.chosen = onoff;
     }
 }
+
 
 
 

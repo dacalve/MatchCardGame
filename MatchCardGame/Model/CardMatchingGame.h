@@ -22,5 +22,7 @@
 - (void)matchMode:(NSUInteger)cardsToMatch;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly)NSInteger lastScore;
+@property (nonatomic, readonly) NSArray *currentCards;
 
 @end
