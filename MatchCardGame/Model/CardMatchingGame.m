@@ -76,35 +76,30 @@ static const int COST_TO_CHOOSE = 1;
             
             NSMutableArray *workingCards = [self setUpWorkingCardArrays:card];
             
-            if ([workingCards count] == (self.howManyCardsToMatch - 1)) {
+            if ([workingCards count] == self.howManyCardsToMatch) {
                 
                 int matchScore = 0;
-                NSArray *chosenCards = [NSArray arrayWithArray:workingCards];
-                matchScore = [card match:chosenCards];
+                Card *matchingCard = workingCards[0];
+                [workingCards removeObjectAtIndex:0];
                 
-                if (self.howManyCardsToMatch > 2) {
-                    //find the score of the 2nd and 3rd cards chosen and add to above score.
-                    Card* insideCard = workingCards[0];
-                    NSMutableArray *remainingChosenCards = [[NSMutableArray alloc] init];
-                    for (int i=1; i < [workingCards count]; i++) {
-                        [remainingChosenCards addObject:workingCards[i]];
-                    }
-                    matchScore += [insideCard match:remainingChosenCards];
-                                        
+                while ([workingCards count] > 0) {
+                    matchScore += [matchingCard match:workingCards];
+                    matchingCard = workingCards[0];
+                    [workingCards removeObjectAtIndex:0];
                 }
+
                 if (matchScore) {
                     self.lastScore = matchScore * MATCH_BONUS;
                     self.score += self.lastScore;
                     card.matched = YES;
-                    [self matchSelectedCards:workingCards];
+                    [self matchCurrentCards];
                     
                 } else {
                     self.lastScore = -MISMATCH_PENALTY;
                     self.score += self.lastScore;
-                    [self toggleSelectedCards:workingCards with:NO];
+                    [self unchooseCurrentCards];
                 }
                 self.score += -COST_TO_CHOOSE;
-                
 
             }
             card.chosen = YES;
@@ -120,29 +115,29 @@ static const int COST_TO_CHOOSE = 1;
     NSMutableArray *selectedCards = [[NSMutableArray alloc]init];
     for (Card *otherCard in self.cards) {
         if ((otherCard.isChosen)&&(!otherCard.isMatched)) {
-            [selectedCards addObject:otherCard];
+            [selectedCards insertObject:otherCard atIndex:0];
         }
     }
     
     //populate currentCards with an array of all currently selected cards.
-    [selectedCards addObject:card];
+    [selectedCards insertObject:card atIndex:0];  //add current card to end of array.
     self.currentCards = [selectedCards copy];
-    [selectedCards removeObjectAtIndex:[selectedCards count]-1];
-    
+//    [selectedCards removeObjectAtIndex:[selectedCards count]-1];
+//    
     return selectedCards; //return array of cards without the current card for match calc processing.
 }
 
--(void)matchSelectedCards:(NSMutableArray *)selectedCards
+-(void)matchCurrentCards
 {
-    for (Card *otherCard in selectedCards) {
+    for (Card *otherCard in self.currentCards) {
         otherCard.matched = YES;
     }
 }
 
--(void)toggleSelectedCards:(NSMutableArray *)selectedCards with:(BOOL)onoff
+-(void)unchooseCurrentCards
 {
-    for (Card *otherCard in selectedCards) {
-        otherCard.chosen = onoff;
+    for (Card *otherCard in self.currentCards) {
+        otherCard.chosen = NO;
     }
 }
 
