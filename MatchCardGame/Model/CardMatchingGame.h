@@ -19,10 +19,11 @@
 
 - (Card *)cardAtIndex:(NSUInteger)index;
 
-- (void)matchMode:(NSUInteger)cardsToMatch;
+- (void)matchMode:(NSUInteger)cardsToMatch usingMultiPassMatch:(BOOL)multiPassMatch;
 
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic, readonly)NSInteger lastScore;
 @property (nonatomic, readonly) NSArray *currentCards;
+@property (nonatomic) NSUInteger howManyCardsToMatch;
 
 @end

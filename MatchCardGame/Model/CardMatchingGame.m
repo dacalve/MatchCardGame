@@ -13,9 +13,11 @@
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, readwrite) NSInteger lastScore;
 @property (nonatomic, strong) NSMutableArray *cards; // array of Card
-
 @property (nonatomic, readwrite) NSArray *currentCards;
-@property NSUInteger howManyCardsToMatch;
+@property (nonatomic) BOOL multiPassMatch;
+
+
+-(NSMutableArray *)setUpWorkingCardArrays:(Card *)card;
 
 @end
 @implementation CardMatchingGame
@@ -28,13 +30,14 @@
     return _cards;
 }
 
-static const int DEFAULT_MATCH_MODE = 2;
+static const int DEFAULT_MATCH_MODE = 3;
+static const BOOL DEFAULT_MULTI_PASS = NO;
 
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck
 {
     self = [super init]; //super's designated initializer
     if (self) {
-        [self matchMode:DEFAULT_MATCH_MODE];
+        [self matchMode:DEFAULT_MATCH_MODE usingMultiPassMatch:DEFAULT_MULTI_PASS];
         for (int i = 0; i < count; i++) {
             Card *card = [deck drawRandomCard];
             if (card) {
@@ -49,9 +52,13 @@ static const int DEFAULT_MATCH_MODE = 2;
     return self;
 }
 
-- (void)matchMode:(NSUInteger)cardsToMatch
+- (void)matchMode:(NSUInteger)cardsToMatch usingMultiPassMatch:(BOOL)multiPassMatch
 {
-    self.howManyCardsToMatch = cardsToMatch;
+    self.howManyCardsToMatch = 2;
+    if (cardsToMatch > 2) {
+        self.howManyCardsToMatch = cardsToMatch;
+    }
+    self.multiPassMatch = multiPassMatch;
 }
 
 - (Card *)cardAtIndex:(NSUInteger)index
@@ -82,10 +89,15 @@ static const int COST_TO_CHOOSE = 1;
                 Card *matchingCard = workingCards[0];
                 [workingCards removeObjectAtIndex:0];
                 
-                while ([workingCards count] > 0) {
+                if (self.multiPassMatch) {
+                    while ([workingCards count] > 0) {
+                        matchScore += [matchingCard match:workingCards];
+                        matchingCard = workingCards[0];
+                        [workingCards removeObjectAtIndex:0];
+                    }
+                    
+                } else {
                     matchScore += [matchingCard match:workingCards];
-                    matchingCard = workingCards[0];
-                    [workingCards removeObjectAtIndex:0];
                 }
 
                 if (matchScore) {
@@ -122,8 +134,6 @@ static const int COST_TO_CHOOSE = 1;
     //populate currentCards with an array of all currently selected cards.
     [selectedCards insertObject:card atIndex:0];  //add current card to end of array.
     self.currentCards = [selectedCards copy];
-//    [selectedCards removeObjectAtIndex:[selectedCards count]-1];
-//    
     return selectedCards; //return array of cards without the current card for match calc processing.
 }
 
