@@ -52,25 +52,7 @@
 
 - (void)updateUI
 {
-//    for (UIButton *button in self.cardButtons) {
-//        int cardButtonIndex = [self.cardButtons indexOfObject:button];
-//        Card *card = [self.game cardAtIndex:cardButtonIndex];
-//        [button setTitle:[self titleForCard:card] forState:UIControlStateNormal];
-//        //[button setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
-//        [button setBackgroundImage:[self imageForCard:card] forState:UIControlStateNormal];
-//        
-//        button.enabled = !card.isMatched;
-//        //break;
-//    }
-//    //populate match results and score labels.
-//    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
-//    if (self.game.lastScore > 0) {
-//            self.matchResults.text = [NSString stringWithFormat:@"Matched %@ for %d points",[self buildMatchedCardLabelText], self.game.lastScore];
-//    } else if (self.game.lastScore < 0){
-//        self.matchResults.text = [NSString stringWithFormat:@"%@ don't match! %d point penalty!", [self buildMatchedCardLabelText], self.game.lastScore];
-//    } else {
-//        self.matchResults.text = @"";
-//    }
+
 }
 
 
