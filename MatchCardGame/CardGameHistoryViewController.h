@@ -10,4 +10,8 @@
 
 @interface CardGameHistoryViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextView *historyView;
+@property (strong, nonatomic) NSMutableArray *history;
+
+
 @end

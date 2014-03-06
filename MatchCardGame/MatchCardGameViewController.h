@@ -12,9 +12,14 @@
 #import "CardMatchingGame.h"
 
 @interface MatchCardGameViewController : UIViewController
-//@property (weak, nonatomic) IBOutlet UITextView *resultView;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+
 @property (strong, nonatomic) CardMatchingGame *game;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+
+@property (strong, nonatomic) NSMutableArray *history;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UITextView *resultView;
+
 //protected for subclasses
 -(Deck *) createDeck; //abstract method
 

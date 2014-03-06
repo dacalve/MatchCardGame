@@ -355,13 +355,13 @@
                     <navigationItem key="navigationItem" id="fSC-yK-p0Y">
                         <barButtonItem key="rightBarButtonItem" title="History" id="tOp-QJ-jjC">
                             <connections>
-                                <segue destination="91U-un-MoX" kind="push" id="HEX-3x-BXO"/>
+                                <segue destination="91U-un-MoX" kind="push" identifier="playingCardHistory" id="HEX-3x-BXO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="resultView" destination="9gO-O8-2Lc" id="l8X-78-WmG"/>
-                        <outlet property="scoreLabel" destination="dfi-Di-Zny" id="10i-cD-xfg"/>
+                        <outlet property="resultView" destination="9gO-O8-2Lc" id="azV-L3-v6u"/>
+                        <outlet property="scoreLabel" destination="dfi-Di-Zny" id="rFS-Ne-ugp"/>
                         <outletCollection property="cardButtons" destination="RPZ-GU-9Jh" id="1H6-vD-JOS"/>
                         <outletCollection property="cardButtons" destination="J8V-7N-fR0" id="lv5-vN-8eu"/>
                         <outletCollection property="cardButtons" destination="Epw-SV-913" id="TRF-0s-I8a"/>
@@ -404,11 +404,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q6k-oe-eMD">
-                                <rect key="frame" x="20" y="37" width="280" height="367"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q6k-oe-eMD">
+                                <rect key="frame" x="20" y="64" width="280" height="366"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -417,6 +417,9 @@
                     <navigationItem key="navigationItem" id="8g0-oP-83s">
                         <barButtonItem key="rightBarButtonItem" title="History" id="PK2-8v-NST"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="historyView" destination="q6k-oe-eMD" id="jvi-4S-zt4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="va6-Ko-pzr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -665,14 +668,13 @@
                     <navigationItem key="navigationItem" id="S96-74-aOz">
                         <barButtonItem key="rightBarButtonItem" title="History" id="5uv-Q3-yzk">
                             <connections>
-                                <segue destination="91U-un-MoX" kind="push" id="JzK-mQ-m45"/>
+                                <segue destination="91U-un-MoX" kind="push" identifier="setCardGameHistory" id="JzK-mQ-m45"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="matchTextView" destination="ylv-zK-96X" id="kAV-b7-1m5"/>
-                        <outlet property="resultView" destination="ylv-zK-96X" id="osM-Mn-gDR"/>
-                        <outlet property="scoreResult" destination="VD8-5B-bve" id="0S3-Xl-dNh"/>
+                        <outlet property="resultView" destination="ylv-zK-96X" id="Tp1-gQ-syN"/>
+                        <outlet property="scoreLabel" destination="VD8-5B-bve" id="rzR-vh-gT5"/>
                         <outletCollection property="cardButtons" destination="n7c-Jx-qwH" id="dmy-Bm-T3d"/>
                         <outletCollection property="cardButtons" destination="LeD-PM-7Et" id="nCv-GB-ZhD"/>
                         <outletCollection property="cardButtons" destination="u9B-h0-FrW" id="jDo-Dc-alx"/>
@@ -748,6 +750,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HEX-3x-BXO"/>
+        <segue reference="JzK-mQ-m45"/>
     </inferredMetricsTieBreakers>
 </document>
